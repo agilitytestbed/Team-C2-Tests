@@ -1,0 +1,11 @@
+
+.idea/*
+out/*
+target/*
+
+*.iml
+
+!.idea/vcs.xml
+!.idea/encodings.xml
+!DPA.iml
+!pom.xml
