@@ -1,10 +1,14 @@
-package nl.ing.honours.sessions;
+package honours.sessions;
+
+import org.junit.Test;
 
 import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class SessionsTest {
-    public static void main(String[] args) {
+    
+    @Test
+    public void getSessionTest() {
         when().
                 post("/api/v1/sessions").
         then().assertThat().
