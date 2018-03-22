@@ -25,6 +25,11 @@
             <artifactId>rest-assured</artifactId>
             <version>3.0.7</version>
         </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>3.0.7</version>
+        </dependency>
     </dependencies>
 
 </project>
