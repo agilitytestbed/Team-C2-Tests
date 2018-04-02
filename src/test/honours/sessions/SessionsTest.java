@@ -13,18 +13,20 @@ import static org.junit.Assert.fail;
 
 public class SessionsTest {
 
+    private static final String BASE_URL = "/api/v1";
+
     private static final String[][] securedEndpoints = new String[][] {
             {"get,post", "/transactions"}, {"get,put,delete", "/transactions/{transactionid}"},
             {"patch", "/transactions/{transactionId}/category"}, {"get,post", "/categories"},
             {"get,put,delete", "/categories/{categoryId}"}
     };
-    
+
     @Test
     public void getSession() {
         when().
-                post("/api/v1/sessions").
+                post(BASE_URL + "/sessions").
         then().assertThat().
-                statusCode(200).
+                statusCode(201).
                 contentType("application/json").
                 body(matchesJsonSchemaInClasspath("session-response.json"));
     }
@@ -50,19 +52,19 @@ public class SessionsTest {
                 Response endpointResponse;
                 switch (method) {
                     case "get":
-                        endpointResponse = specification.get("/api/v1" + url);
+                        endpointResponse = specification.get(BASE_URL + url);
                         break;
                     case "post":
-                        endpointResponse = specification.post("/api/v1" + url);
+                        endpointResponse = specification.post(BASE_URL + url);
                         break;
                     case "put":
-                        endpointResponse = specification.put("/api/v1" + url);
+                        endpointResponse = specification.put(BASE_URL + url);
                         break;
                     case "patch":
-                        endpointResponse = specification.patch("/api/v1" + url);
+                        endpointResponse = specification.patch(BASE_URL + url);
                         break;
                     case "delete":
-                        endpointResponse = specification.delete("/api/v1" + url);
+                        endpointResponse = specification.delete(BASE_URL + url);
                         break;
                     default:
                         return;
