@@ -1,4 +1,4 @@
-package honours.transactions;
+package nl.ing.honours.transaction;
 
 import org.junit.Test;
 

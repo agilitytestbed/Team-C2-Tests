@@ -1,4 +1,4 @@
-package honours.sessions;
+package nl.ing.honours.session;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
