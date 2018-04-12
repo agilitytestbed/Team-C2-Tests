@@ -1,12 +1,15 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "session response",
+  "title": "category response",
   "type": "object",
   "properties": {
-    "session_id": {
+    "id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "name": {
       "type": "string",
       "minLength": 1
     }
   }
-
 }
