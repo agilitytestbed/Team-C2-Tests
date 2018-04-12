@@ -39,8 +39,7 @@ public class SessionsTest {
 
     @Test
     public void useInvalidSession() {
-        Random r = new Random();
-        RequestSpecification sessionSpec = given().header("X-session-ID", Long.toString(r.nextLong()));
+        RequestSpecification sessionSpec = given().header("X-session-ID", "Invalid_Session_ID");
         sendEndpointRequests(sessionSpec);
     }
 
