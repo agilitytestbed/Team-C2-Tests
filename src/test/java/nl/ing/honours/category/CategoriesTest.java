@@ -1,18 +1,23 @@
 package nl.ing.honours.category;
 
+import io.restassured.path.json.JsonPath;
 import nl.ing.honours.Utils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.junit.Assert.assertEquals;
 
 public class CategoriesTest {
-    private static final String SOME_CATEGORY_NAME_VALUE = "Groceries";
     private static final String ID_NAME = "id";
-    private static final String CATEGORY_NAME_NAME = "name";
     private static final String SOME_ID_VALUE = "0";
+    private static final String CATEGORY_NAME_NAME = "name";
+    private static final String SOME_CATEGORY_NAME_VALUE = "Groceries";
+
     private static final String CATEGORY_JSON_SCHEMA_PATH = "category-response.json";
 
     /**
@@ -21,7 +26,7 @@ public class CategoriesTest {
      */
     @Test
     public void testGet() {
-        String bodyGet = given()
+        JsonPath jsonPathGet = given()
                 .header(Utils.X_SESSION_ID_HEADER, Utils.getValidSessionId())
                 .contentType(Utils.APPLICATION_JSON_VALUE)
                 .when()
@@ -30,15 +35,16 @@ public class CategoriesTest {
                 .assertThat()
                 .statusCode(200)
                 .contentType(Utils.APPLICATION_JSON_VALUE)
-                .extract().body().toString();
-        JSONObject jsonObjectGet = new JSONObject(bodyGet);
-        assert jsonObjectGet.getJSONArray(jsonObjectGet.keys().next()).length() == 0;
+                .extract().jsonPath();
+        ArrayList getArrayList = jsonPathGet.get("$");
+        assertEquals(0, getArrayList.size());
     }
 
     @Test
     public void testGetAfterPost() {
         String sessionId = Utils.getValidSessionId();
-        String bodyPost = given()
+
+        JsonPath jsonPathPost = given()
                 .header(Utils.X_SESSION_ID_HEADER, sessionId)
                 .contentType(Utils.APPLICATION_JSON_VALUE)
                 .body(new JSONObject().put(CATEGORY_NAME_NAME, SOME_CATEGORY_NAME_VALUE).toString())
@@ -48,9 +54,9 @@ public class CategoriesTest {
                 .assertThat()
                 .statusCode(201)
                 .contentType(Utils.APPLICATION_JSON_VALUE)
-                .extract().body().toString();
+                .extract().jsonPath();
 
-        String bodyGet = given()
+        JsonPath jsonPathGet = given()
                 .header(Utils.X_SESSION_ID_HEADER, sessionId)
                 .contentType(Utils.APPLICATION_JSON_VALUE)
                 .when()
@@ -59,10 +65,13 @@ public class CategoriesTest {
                 .assertThat()
                 .statusCode(200)
                 .contentType(Utils.APPLICATION_JSON_VALUE)
-                .extract().body().toString();
-        JSONObject jsonObjectPost = new JSONObject(bodyPost);
-        JSONObject jsonObjectGet = new JSONObject(bodyGet);
-        assert jsonObjectGet.getJSONArray(jsonObjectGet.keys().next()).equals(new JSONArray().put(jsonObjectPost));
+                .extract().jsonPath();
+
+        HashMap postCategory = jsonPathPost.get("$");
+        ArrayList getArrayList = jsonPathGet.get("$");
+        assertEquals(1, getArrayList.size());
+        HashMap getCategory = (HashMap) getArrayList.get(0);
+        assertEquals(postCategory, getCategory);
     }
 
     /**
