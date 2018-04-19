@@ -87,13 +87,14 @@ public class CategoriesTest {
                 .when()
                 .post(Utils.BASE_URL + Utils.CATEGORIES_PATH)
                 .then()
-                .assertThat().statusCode(405)
+                .assertThat()
+                .statusCode(405)
                 .contentType(Utils.APPLICATION_JSON_VALUE);
     }
 
     @Test
     public void testPostWithName() {
-        given()
+        JsonPath jsonPath = given()
                 .header(Utils.X_SESSION_ID_HEADER, Utils.getValidSessionId())
                 .contentType(Utils.APPLICATION_JSON_VALUE)
                 .body(new JSONObject().put(CATEGORY_NAME_NAME, SOME_CATEGORY_NAME_VALUE).toString())
@@ -103,7 +104,10 @@ public class CategoriesTest {
                 .assertThat()
                 .statusCode(201)
                 .contentType(Utils.APPLICATION_JSON_VALUE)
-                .body(matchesJsonSchemaInClasspath(CATEGORY_JSON_SCHEMA_PATH));
+                .body(matchesJsonSchemaInClasspath(CATEGORY_JSON_SCHEMA_PATH))
+                .extract().jsonPath();
+        HashMap postCategory = jsonPath.get("$");
+        assertEquals(SOME_CATEGORY_NAME_VALUE, postCategory.get(CATEGORY_NAME_NAME));
     }
 
     @Test
@@ -115,8 +119,8 @@ public class CategoriesTest {
                 .when()
                 .post(Utils.BASE_URL + Utils.CATEGORIES_PATH)
                 .then()
-                .assertThat().statusCode(405)
-                .contentType(Utils.APPLICATION_JSON_VALUE);
+                .assertThat()
+                .statusCode(405);
     }
 
     @Test
@@ -128,8 +132,8 @@ public class CategoriesTest {
                 .when()
                 .post(Utils.BASE_URL + Utils.CATEGORIES_PATH)
                 .then()
-                .assertThat().statusCode(405)
-                .contentType(Utils.APPLICATION_JSON_VALUE);
+                .assertThat()
+                .statusCode(405);
     }
 
     @Test
@@ -149,7 +153,7 @@ public class CategoriesTest {
                 .when()
                 .post(Utils.BASE_URL + Utils.CATEGORIES_PATH)
                 .then()
-                .assertThat().statusCode(405)
-                .contentType(Utils.APPLICATION_JSON_VALUE);
+                .assertThat()
+                .statusCode(405);
     }
 }
