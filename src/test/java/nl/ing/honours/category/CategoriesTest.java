@@ -383,4 +383,64 @@ public class CategoriesTest {
                 .contentType(Utils.APPLICATION_JSON_VALUE)
                 .extract().jsonPath();
     }
+
+    /*
+     * tests for DELETE /categories/{categoryId}
+     * For authentication related tests please see "SessionsTest"
+     */
+    @Test
+    public void testDeleteAfterPost() {
+        String sessionId = Utils.getValidSessionId();
+        JsonPath jsonPathPost = given()
+                .header(Utils.X_SESSION_ID_HEADER, sessionId)
+                .contentType(Utils.APPLICATION_JSON_VALUE)
+                .body(new JSONObject().put(CATEGORY_NAME_NAME, GROCERIES_CATEGORY_NAME_VALUE).toString())
+                .when()
+                .post(Utils.BASE_URL + Utils.CATEGORIES_PATH)
+                .then()
+                .assertThat()
+                .statusCode(201)
+                .contentType(Utils.APPLICATION_JSON_VALUE)
+                .extract().jsonPath();
+
+        HashMap categoryPost = jsonPathPost.get("$");
+
+        given()
+                .header(Utils.X_SESSION_ID_HEADER, sessionId)
+                .contentType(Utils.APPLICATION_JSON_VALUE)
+                .body(new JSONObject().put(ID_NAME, categoryPost.get(ID_NAME)).put(CATEGORY_NAME_NAME, TOILETRIES_CATEGORY_NAME_VALUE).toString())
+                .when()
+                .delete(Utils.BASE_URL + Utils.CATEGORIES_PATH + "/" + categoryPost.get(ID_NAME))
+                .then()
+                .assertThat()
+                .statusCode(204);
+    }
+
+    @Test
+    public void testDeleteByInvalidId() {
+        String invalidId = "this_is_not_an_integer";
+        given()
+                .header(Utils.X_SESSION_ID_HEADER, Utils.getValidSessionId())
+                .contentType(Utils.APPLICATION_JSON_VALUE)
+                .body(new JSONObject().put(CATEGORY_NAME_NAME, GROCERIES_CATEGORY_NAME_VALUE).toString())
+                .when()
+                .delete(Utils.BASE_URL + Utils.CATEGORIES_PATH + "/" + invalidId)
+                .then()
+                .assertThat()
+                .statusCode(405);
+    }
+
+    @Test
+    public void testDeleteByUnknownId() {
+        String unknownId = "12345678";
+        given()
+                .header(Utils.X_SESSION_ID_HEADER, Utils.getValidSessionId())
+                .contentType(Utils.APPLICATION_JSON_VALUE)
+                .body(new JSONObject().put(CATEGORY_NAME_NAME, GROCERIES_CATEGORY_NAME_VALUE).toString())
+                .when()
+                .delete(Utils.BASE_URL + Utils.CATEGORIES_PATH + "/" + unknownId)
+                .then()
+                .assertThat()
+                .statusCode(404);
+    }
 }
