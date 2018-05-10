@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "create transaction response",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "externalIBAN": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["deposit", "withdrawal"]
+    },
+    "category": {
+      "type": ["object", "null"],
+      "oneOf":[
+        {
+          "$ref": "category-response.json"
+        }, {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": ["id", "date", "amount", "externalIBAN", "type"]
+}

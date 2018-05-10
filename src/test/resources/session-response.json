@@ -3,10 +3,10 @@
   "title": "session response",
   "type": "object",
   "properties": {
-    "session_id": {
+    "id": {
       "type": "string",
       "minLength": 1
     }
-  }
-
+  },
+  "required": ["id"]
 }
