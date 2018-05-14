@@ -1,4 +1,4 @@
-package nl.ing.honours;
+package nl.utwente.ing;
 
 import static io.restassured.RestAssured.when;
 

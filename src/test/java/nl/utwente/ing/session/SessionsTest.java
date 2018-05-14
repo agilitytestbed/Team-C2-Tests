@@ -1,10 +1,8 @@
-package nl.ing.honours.session;
+package nl.utwente.ing.session;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Test;
-
-import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;

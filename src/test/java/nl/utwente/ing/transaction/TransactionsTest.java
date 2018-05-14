@@ -1,7 +1,7 @@
-package nl.ing.honours.transaction;
+package nl.utwente.ing.transaction;
 
 import io.restassured.path.json.JsonPath;
-import nl.ing.honours.Utils;
+import nl.utwente.ing.Utils;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static nl.ing.honours.Utils.getValidSessionId;
+import static nl.utwente.ing.Utils.getValidSessionId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 

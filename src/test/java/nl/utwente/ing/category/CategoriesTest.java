@@ -1,7 +1,7 @@
-package nl.ing.honours.category;
+package nl.utwente.ing.category;
 
 import io.restassured.path.json.JsonPath;
-import nl.ing.honours.Utils;
+import nl.utwente.ing.Utils;
 import org.json.JSONObject;
 import org.junit.Test;
 
