@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "category rule response",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "description": {
+      "type": "string"
+    },
+    "iBAN": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["deposit", "withdrawal", ""]
+    },
+    "category_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "applyOnHistory": {
+      "type": "boolean",
+      "default": "false"
+    }
+  }
+}

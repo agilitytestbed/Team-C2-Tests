@@ -402,4 +402,46 @@ public class TransactionsTest {
         return resultMap;
     }
 
+    @Test
+    public void testDescriptions() {
+        String session_id = getValidSessionId();
+        JSONObject transactionBody = new JSONObject()
+                .put("date", "2018-04-12T12:28:34.642Z")
+                .put("externalIBAN", "NL39RABO0300065264")
+                .put("description", "This is a test description!")
+                .put("amount", "200")
+                .put("type", "deposit");
+        int transaction_id = given()
+                                .header(Utils.X_SESSION_ID_HEADER, session_id)
+                                .contentType(Utils.APPLICATION_JSON_VALUE)
+                                .body(transactionBody.toString())
+                                .when()
+                                .post(Utils.BASE_URL + Utils.TRANSACTIONS_PATH)
+                                .then()
+                                .extract().path("id");
+        String transactionDescription = given()
+                                            .header(Utils.X_SESSION_ID_HEADER, session_id)
+                                            .when()
+                                            .get(Utils.BASE_URL + Utils.TRANSACTIONS_PATH + "/" + transaction_id)
+                                            .then()
+                                            .extract().path("description");
+        assertEquals("This is a test description!", transactionDescription);
+        transactionBody.put("description", "This is different description!");
+        given()
+            .header(Utils.X_SESSION_ID_HEADER, session_id)
+            .contentType(Utils.APPLICATION_JSON_VALUE)
+            .body(transactionBody.toString())
+            .when()
+            .put(Utils.BASE_URL + Utils.TRANSACTIONS_PATH + "/" + transaction_id)
+            .then()
+            .assertThat()
+            .statusCode(200);
+        String changedTransactionDescription = given()
+                                                    .header(Utils.X_SESSION_ID_HEADER, session_id)
+                                                    .when()
+                                                    .get(Utils.BASE_URL + Utils.TRANSACTIONS_PATH + "/" + transaction_id)
+                                                    .then()
+                                                    .extract().path("description");
+        assertEquals("This is a test description!", changedTransactionDescription);
+    }
 }
