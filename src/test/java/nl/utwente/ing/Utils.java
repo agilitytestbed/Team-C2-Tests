@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.when;
 
 public class Utils {
     public static final String BASE_URL = "/api/v1";
+    public static final String SESSIONS_PATH = "/sessions";
     public static final String CATEGORIES_PATH = "/categories";
     public static final String TRANSACTIONS_PATH = "/transactions";
     public static final String CATEGORY_RULES_PATH = "/categoryRules";
