@@ -8,6 +8,7 @@ public class Utils {
     public static final String CATEGORIES_PATH = "/categories";
     public static final String TRANSACTIONS_PATH = "/transactions";
     public static final String CATEGORY_RULES_PATH = "/categoryRules";
+    public static final String BALANCE_PATH = "/balance";
 
     public static final String X_SESSION_ID_HEADER = "X-Session-ID";
     public static final String APPLICATION_JSON_VALUE = "application/json";

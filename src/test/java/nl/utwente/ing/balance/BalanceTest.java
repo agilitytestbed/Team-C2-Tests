@@ -1,4 +1,4 @@
-package nl.utwente.ing.balanceHistory;
+package nl.utwente.ing.balance;
 
 import nl.utwente.ing.Utils;
 import org.json.JSONObject;
